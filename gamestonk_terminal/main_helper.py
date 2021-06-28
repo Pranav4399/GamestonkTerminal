@@ -333,7 +333,7 @@ def candle(s_ticker: str, s_start: str):
         type="candle",
         mav=(20, 50),
         volume=True,
-        title=f"\n{s_ticker} - Last 6 months",
+        title=f"\n{s_ticker}",
         addplot=ap0,
         xrotation=10,
         style=s,
@@ -592,7 +592,7 @@ def view(other_args: List[str], s_ticker: str, s_start, s_interval, df_stock):
     plot_view_stock(df_stock.iloc[:, ln_col_idx], ns_parser.s_ticker, s_interval)
 
 
-def export(other_args: List[str], df_stock):
+def export(other_args: List[str], df_stock, out_path):
     parser = argparse.ArgumentParser(
         add_help=False,
         prog="export",
@@ -628,13 +628,13 @@ def export(other_args: List[str], df_stock):
         return
 
     if ns_parser.s_format == "csv":
-        df_stock.to_csv(ns_parser.s_filename)
+        df_stock.to_csv(os.path.join(out_path, ns_parser.s_filename))
 
     elif ns_parser.s_format == "json":
-        df_stock.to_json(ns_parser.s_filename)
+        df_stock.to_json(os.path.join(out_path, ns_parser.s_filename))
 
     elif ns_parser.s_format == "excel":
-        df_stock.to_excel(ns_parser.s_filename)
+        df_stock.to_excel(os.path.join(out_path, ns_parser.s_filename))
 
     elif ns_parser.s_format == "clipboard":
         df_stock.to_clipboard()

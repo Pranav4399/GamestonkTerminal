@@ -67,5 +67,5 @@ def simply_wallst_view(other_args: List[str]):
     if not ns_parser:
         return
 
-    webbrowser.open(f"https://simplywall.st/stocks/us/{ns_parser.s_industry}?page=1")
+    webbrowser.open(f"https://simplywall.st/stocks/in/{ns_parser.s_industry}?page=1")
     print("")

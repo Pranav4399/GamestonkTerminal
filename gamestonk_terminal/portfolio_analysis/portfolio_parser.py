@@ -33,7 +33,7 @@ def load_csv_portfolio(other_args: List[str]):
     parser.add_argument(
         "-p",
         "--path",
-        default="my_portfolio",
+        default="pranav_portfolio",
         type=check_valid_path,
         help="Path to csv file",
         dest="path",

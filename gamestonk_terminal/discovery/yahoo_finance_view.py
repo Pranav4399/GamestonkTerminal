@@ -28,7 +28,7 @@ def gainers_view(other_args: List[str]):
         action="store",
         dest="n_gainers",
         type=int,
-        default=5,
+        default=10,
         choices=range(1, 25),
         help="Number of the top gainers stocks to retrieve.",
     )
@@ -38,7 +38,7 @@ def gainers_view(other_args: List[str]):
         return
 
     df_gainers = pd.read_html(
-        "https://finance.yahoo.com/screener/predefined/day_gainers"
+        "https://in.finance.yahoo.com/gainers/"
     )[0]
     print(df_gainers.head(ns_parser.n_gainers).to_string(index=False))
     print("")
@@ -65,7 +65,7 @@ def losers_view(other_args: List[str]):
         action="store",
         dest="n_losers",
         type=int,
-        default=5,
+        default=10,
         choices=range(1, 25),
         help="Number of the top losers stocks to retrieve.",
     )
@@ -75,7 +75,7 @@ def losers_view(other_args: List[str]):
         return
 
     df_losers = pd.read_html(
-        "https://finance.yahoo.com/screener/predefined/day_losers"
+        "https://in.finance.yahoo.com/losers"
     )[0]
     print(df_losers.head(ns_parser.n_losers).to_string(index=False))
     print("")

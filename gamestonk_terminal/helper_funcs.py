@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 import iso8601
 import matplotlib
 import matplotlib.pyplot as plt
-from holidays import US as holidaysUS
+from holidays import US as holidaysIN
 from colorama import Fore, Style
 from pandas._config.config import get_option
 from pandas.plotting import register_matplotlib_converters
@@ -137,13 +137,18 @@ def us_market_holidays(years) -> list:
         ]
     # https://www.nyse.com/markets/hours-calendars
     marketHolidays = [
-        "Martin Luther King Jr. Day",
-        "Washington's Birthday",
-        "Memorial Day",
-        "Independence Day",
-        "Labor Day",
-        "Thanksgiving",
-        "Christmas Day",
+        "Republic Day",
+        "Mahashivratri",
+        "Holi",
+        "Dr.Baba Saheb Ambedkar Jayanti",
+        "Ram Navami",
+        "Id-Ul-Fitr (Ramzan ID)",
+        "Bakri Id",
+        "Moharram",
+        "Ganesh Chaturthi",
+        "Dussehra",
+        "Diwali-Balipratipada",
+        "Gurunanak Jayanti"
     ]
     #   http://www.maa.clell.de/StarDate/publ_holidays.html
     goodFridays = {
@@ -172,7 +177,10 @@ def us_market_holidays(years) -> list:
     marketHolidays_and_obsrvd = marketHolidays + [
         holiday + " (Observed)" for holiday in marketHolidays
     ]
-    allHolidays = holidaysUS(years=years)
+    #print("Elements of the List:\n")
+    #print('\n'.join(map(str, marketHolidays_and_obsrvd))) 
+
+    allHolidays = holidaysIN(years=years)
     validHolidays = []
     for date in list(allHolidays):
         if allHolidays[date] in marketHolidays_and_obsrvd:
@@ -191,7 +199,8 @@ def us_market_holidays(years) -> list:
 def b_is_stock_market_open() -> bool:
     """checks if the stock market is open"""
     # Get current US time
-    now = datetime.now(timezone("US/Eastern"))
+    now = datetime.now(timezone("Asia/Kolkata"))
+    print(now,"----> Indian Time")
     # Check if it is a weekend
     if now.date().weekday() > 4:
         return False
@@ -199,10 +208,10 @@ def b_is_stock_market_open() -> bool:
     if now.strftime("%Y-%m-%d") in us_market_holidays(now.year):
         return False
     # Check if it hasn't open already
-    if now.time() < Time(hour=9, minute=30, second=0):
+    if now.time() < Time(hour=9, minute=15, second=0):
         return False
     # Check if it has already closed
-    if now.time() > Time(hour=16, minute=0, second=0):
+    if now.time() > Time(hour=3, minute=30, second=0):
         return False
     # Otherwise, Stock Market is open!
     return True

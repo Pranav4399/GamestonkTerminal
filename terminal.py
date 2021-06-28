@@ -235,10 +235,13 @@ Contexts:
         self.ticker, self.start, self.interval, self.stock = load(
             other_args, self.ticker, self.start, self.interval, self.stock
         )
+        self.print_help()
         if "." in self.ticker:
-            self.ticker, self.suffix = self.ticker.split(".")
+            self.ticker, self.suffix = self.ticker.split(".")   
+            print("INDIAN TICKER SUFFIX IS - ", self.suffix)
         else:
             self.suffix = ""
+            print("FOREIGN TICKER")
 
     def call_quote(self, other_args: List[str]):
         """Process quote command"""
@@ -248,18 +251,29 @@ Contexts:
 
     def call_candle(self, _):
         """Process candle command"""
+
+        choice = None 
+        while choice not in ("Y", "N","y","n"): 
+            choice = input("Do you want to a specific timeframe(Y/N) ? Default is 360 days \n").lower() 
+            if choice.startswith('y'): 
+                candleDays = int(input("Enter the timeframe of days for candles \n"))
+            elif choice.startswith('n'):
+                candleDays = 360
+            else: 
+    	        print("INVALID INPUT ! Please enter Y/N.")      
         candle(
             self.ticker + "." + self.suffix if self.suffix else self.ticker,
-            (datetime.now() - timedelta(days=180)).strftime("%Y-%m-%d"),
+            (datetime.now() - timedelta(days=candleDays)).strftime("%Y-%m-%d"),
         )
 
     def call_view(self, other_args: List[str]):
         """Process view command"""
         view(other_args, self.ticker, self.start, self.interval, self.stock)
 
-    def call_export(self, other_args: List[str]):
+    def call_export(self, other_args: List[str]): 
         """Process export command"""
-        export(other_args, self.stock)
+        out_path = r"D:\Github\GamestonkTerminal\exports"
+        export(other_args, self.stock,out_path)
 
     def call_disc(self, _):
         """Process disc command"""
